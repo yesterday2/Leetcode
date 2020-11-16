@@ -1,0 +1,17 @@
+strStr问题28 直接暴力解决
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int N=haystack.length() ,L =needle.length() ;
+        for(int i=0;i<N- L+1;i++)
+        {
+            if( haystack.substring(i,i+L).equals(needle)){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+颜色分类 问题75
+方法一：单指针  考虑对数组进行两次遍历。在第一次遍历中，我们将数组中所有的 00 交换到数组的头部。在第二次遍历中，我们将数组中所有的 11 交换到头部的 00 之后。
+方法二：双指针   一个指针指向首端第一个不是0的位置，一个指向末端不是2的位置，从两个指针中间遍历。如果搜索到是0，则与p1指针交换，若搜索到是2与第二个指针交换。
