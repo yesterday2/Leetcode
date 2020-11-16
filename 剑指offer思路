@@ -1,0 +1,48 @@
+第一题 矩阵中搜索数
+public class Solution {
+    public boolean Find(int target, int [][] array) {
+        if (array ==null) return false;
+        int rows = array.length;
+        int cols = array[0].length;
+        if(rows <=0 ||cols<=0) return false;
+        int row = 0,col =cols-1;
+        while(row<rows && col >=0){
+            if(array[row][col] == target)
+                return true;
+            else if(array[row][col] > target)
+                col--;
+            else 
+                row++;
+        }
+        return false;
+    }
+}
+
+第二题 替换空格
+int cnt= 0;
+        for(int i=0;i<str.length();i++) {
+            if(str.charAt(i)==' ')
+                cnt++;
+        }
+        int sumLen = cnt*2+ str.length();
+        char ans[] = new char[sumLen];
+        int cur =0;
+        for(int i=0;i<str.length();i++) {
+            if(str.charAt(i)!=' ') {
+                ans[cur]= str.charAt(i);
+                cur++;
+            }else
+            {
+                ans[cur]='%';
+                cur++;
+                ans[cur]='2';
+                cur++;
+                ans[cur]='0';
+                cur++;
+            }
+        }
+        return new String(ans);
+        
+        
+        
+        
