@@ -15,3 +15,60 @@ class Solution {
 颜色分类 问题75
 方法一：单指针  考虑对数组进行两次遍历。在第一次遍历中，我们将数组中所有的 00 交换到数组的头部。在第二次遍历中，我们将数组中所有的 11 交换到头部的 00 之后。
 方法二：双指针   一个指针指向首端第一个不是0的位置，一个指向末端不是2的位置，从两个指针中间遍历。如果搜索到是0，则与p1指针交换，若搜索到是2与第二个指针交换。
+
+class Solution {
+    public void swap(int[] nums,int i,int j){
+        int temp = nums[i];
+        nums[i]= nums[j];
+        nums[j] = temp;
+    }
+    public int getIdFromBack(int []nums,int k){
+        for(int i=k;i>=0;i--)
+            if (nums[i] != 2)
+                return i;
+        return 0;
+    }
+    public int getIdFromFront(int []nums,int k){
+        for(int i=k;i<nums.length;i++)
+            if (nums[i] != 0)
+                return i;
+        return 0;
+    }
+    public void sortColors(int[] nums) {
+        int N =nums.length;
+        int p1=getIdFromFront(nums,0);
+        int p2=getIdFromBack(nums,nums.length-1);
+        int upper = p2;
+        for(int i=p1;i<=upper && i<= p2;i++){
+            if(nums[i]==0) {
+                swap(nums, i, p1);
+                p1++;
+                int p11 = getIdFromFront(nums,p1);
+                if(p11>p1) {
+                    p1= p11;
+                    i=p1-1;
+                }
+                p2=getIdFromBack(nums,p2);
+            }
+            else if(nums[i] == 2){
+                swap(nums,i,p2);
+                if(nums[i] == 0) i--;
+                p2--;
+                int p11 = getIdFromFront(nums,p1);
+                if(p11>p1) {
+                    p1 = p11;
+                    i=p1-1;
+                }
+                p2=getIdFromBack(nums,p2);
+            }
+
+        }
+    }
+}
+
+常数时间插入、删除和获取随机元素 leetcode 380
+hash 表+动态数组  在hash表中存储id和key
+
+
+
+
