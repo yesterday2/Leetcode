@@ -445,6 +445,159 @@ class MedianFinder {
 }
 
 ```
+9.2两个队列实现一个栈
+	Stack<Integer> stack1;
+    Stack<Integer> stack2;
+    public CQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+    public void appendTail(int value) {
+        stack1.push(value);
+    }
+    public int deleteHead() {
+        if(stack1.isEmpty())
+            return -1;
+        while(!stack1.isEmpty()){
+            stack2.push(stack1.pop());
+        }
+        int ans = stack2.pop();
+        while(!stack2.isEmpty()){
+            stack1.push(stack2.pop());
+        }
+        return ans;
+    }
 
+9.1两个栈实现一个队列
 
+    /** Initialize your data structure here. */
+    Queue<Integer> queue1;
+    Queue<Integer> queue2;
+    int size =0;
+    public MyStack() {
+        queue1 =  new LinkedList<Integer>() ;
+        queue2 =  new LinkedList<Integer>() ;
+        
+    }
+    
+    /** Push element x onto stack. */
+    public void push(int x) {
+        queue1.add(x);
+    }
+    
+    /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        if(queue1.size() ==0)
+            return -1;
+        while(queue1.size() > 1){
+            queue2.add(queue1.poll());
+        }
+        int ans = queue1.poll();
+        while(!queue2.isEmpty()){
+            queue1.add(queue2.poll());
+        }
+        return ans;
+    }
+    
+    /** Get the top element. */
+    public int top() {
+        if(queue1.size() ==0)
+            return -1;
+        while(queue1.size() > 1){
+            queue2.add(queue1.poll());
+        }
+        int ans = queue1.peek();
+        queue2.add(queue1.poll());
+        while(!queue2.isEmpty()){
+            queue1.add(queue2.poll());
+        }
+        return ans;
+    }
+    
+    数组实现队列
+    int []arr = null;
+    int curId =0 ,endId =0, curSize =0,size = 0;
 
+    public MyCircularQueue(int k) {
+        arr = new int[k];
+        size =k;
+    }
+
+    public boolean enQueue(int value) {
+        if(curSize < size){
+            arr[curId% size] = value;
+            curSize++;
+            curId++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deQueue() {
+        if(curSize<=0) return  false;
+        endId ++;
+        endId = endId % size;
+        curSize--;
+        return true;
+    }
+
+    public int Front() {
+        if(curSize<=0) return -1;
+        return arr[(endId) % size];
+    }
+
+    public int Rear() {
+        if(curSize<=0) return -1;
+        return arr[(curId-1) % size];
+
+    }
+
+    public boolean isEmpty() {
+        return curSize==0;
+    }
+
+    public boolean isFull() {
+        return curSize==size;
+    }
+    
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return queue1.isEmpty();
+    }
+    
+    
+    10 设计一个getMin()函数的栈
+    
+     /** initialize your data structure here. */
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
+
+    public MinStack() {
+    }
+
+    public void push(int x) {
+        if (stack1.isEmpty()) {
+            minStack.push(x);
+            stack1.push(x);
+            return;
+        }
+
+        stack1.push(x);
+        if (x < minStack.peek())
+            minStack.push(x);
+        else
+            minStack.push(minStack.peek());
+    }
+
+    public void pop() {
+        stack1.pop();
+        minStack.pop();
+    }
+
+    public int top() {
+        return stack1.peek();
+    }
+
+    public int min() {
+        return minStack.peek();
+    }
