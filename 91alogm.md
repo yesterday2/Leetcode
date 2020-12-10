@@ -393,7 +393,7 @@ class Solution {
 #### 6、leetcode 剑指Offer 41数据流的中位数
 
 ```
-注意：此方法是正确的，但是过不了测试案例。需要优化
+
 class MedianFinder {
 
     /** initialize your data structure here. */
@@ -416,37 +416,196 @@ class MedianFinder {
     }
     
     public void addNum(int num) {
-        maxHeap.add(num);
+        if(maxHeap.isEmpty())   {
+            maxHeap.add(num);
+            return;
+        }
+        if(num > maxHeap.peek())
+            minHeap.add(num);
+        else
+            maxHeap.add(num);
+        while(   maxHeap.size() - minHeap.size()  >1){
+            minHeap.add(maxHeap.poll());
+        }
+        while(  minHeap.size() - maxHeap.size()  >= 1){
+            maxHeap.add(minHeap.poll());
+        }
     }
     
     public double findMedian() {
         double ans =0;
-        int size = maxHeap.size();
-        boolean bflag =false;//true 代表是奇数
-        bflag = ( maxHeap.size()%2 ==0)? false:true;
-        size=  size/2 ;
-    
-        while(size-->0){
-            minHeap.add( maxHeap.poll());
-        }
-    
-        if(bflag == false) {
-            ans =  (maxHeap.peek() + minHeap.peek())/2.0f;
-        }
-        else{
-            ans = maxHeap.peek();
-        }
-        while(!minHeap.isEmpty()){
-            maxHeap.add( minHeap.poll());
-        }
+        int size = maxHeap.size() + minHeap.size();
+        ans = (size%2 ==0)? (maxHeap.peek() + minHeap.peek())/2.0f: maxHeap.peek();
         return ans;
     }
-
 }
 
 ```
-9.2两个队列实现一个栈
-	Stack<Integer> stack1;
+
+#### 12月10号
+
+#### 7、桶排序
+
+假设数据只在（0-200之间，数据波动比较小）比如年龄等。开辟一个大小为200的数组，去进行计数。最后将数组的每个元素的值恢复成排序。
+
+
+
+
+
+	public static void bucketSort(int[] arr) {
+		if (arr == null || arr.length < 2) {
+			return;
+		}
+		int max = Integer.MIN_VALUE;
+		//找到最大的值
+		for (int i = 0; i < arr.length; i++) {
+			max = Math.max(max, arr[i]);
+		}
+		int[] bucket = new int[max + 1];
+		for (int i = 0; i < arr.length; i++) {
+			bucket[arr[i]]++;
+		}
+		int i = 0;
+		//将计数后的数组恢复回去
+		for (int j = 0; j < bucket.length; j++) {
+			while (bucket[j]-- > 0) {
+				arr[i++] = j;
+			}
+		}
+	}
+##### 7.1 桶排序相关的题  leetcode 164 最大间距
+
+思路：有n个数，遍历获得最大最小值，申请n+1个桶，将每个数放进桶中。维护每个桶的最大最小值遍历一次。如果是访问第一个
+
+获得答案
+
+```
+有点Bug需要调试一下
+public static int maximumGap(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for(int i=0;i<nums.length;i++){
+            max = nums[i]>max ? nums[i]:max;
+            min = nums[i]<min ? nums[i]:min;
+        }
+        int []bucket = new int[nums.length+1];
+        int []buMin = new int[nums.length+1];
+        int []buMax = new int[nums.length+1];
+        boolean []buFlag = new boolean[nums.length+1];
+        double dis = (max - min)*1.0f / nums.length;
+        int id;
+        for(int i =0;i<nums.length;i++){
+            id = (int)Math.round( (nums[i] - min) / dis);
+            if(buFlag[id] == false){
+                buMin[id] = buMax[id] = nums[i];
+                buFlag[id] = true ;
+            }else{
+                buMin[id] = nums[i]<buMin[id] ? nums[i]:buMin[id];
+                buMax[id] = nums[i]>buMin[id] ? nums[i]:buMax[id];
+            }
+        }
+        int ans =Integer.MIN_VALUE;
+        for(int i=0;i<bucket.length;){
+            int j=i;
+            while(++j < bucket.length &&  buFlag[j] == false);
+            if(j >= bucket.length)
+                return ans;
+            if(j!= i+1 ){
+                ans = buMin[j]- buMax[i]> ans ?buMin[j]- buMax[i] : ans;
+                i =j;
+            }else{
+                ans = buMin[j]- buMax[i]> ans ?buMin[j]- buMax[i] : ans;
+                i++;
+            }
+        }
+        return ans;
+    }
+```
+
+ 
+
+#### 8 链表相交的一系列问题
+
+##### 8.1 leetcode 剑指Offer 52 两个链表相交的第一个公共节点
+
+```
+思路挺简单，没啥说的
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int len1 = 0, len2 = 0;
+        ListNode node = headA;
+        while(node!=null){
+            len1++;
+            node=node.next;
+        }
+        node = headB;
+        while(node!=null){
+            len2++;
+            node=node.next;
+        }
+        
+
+        ListNode node1 = len1 > len2 ?  headA : headB;
+        ListNode node2 = len1 > len2 ?  headB : headA;
+        int len3 = Math.abs(len1-len2);
+        while(len3-- >0){
+            node1=node1.next;
+        }
+        while(node1 != node2){
+            node1= node1.next;
+            node2= node2.next;
+        }
+        return node1;
+    }
+
+}
+```
+
+
+
+##### 8.2 leetcode 141  如何判断一个链表是否有环 
+
+
+
+```
+
+function detectCycle(head) {
+    let fast = head;
+    let slow = head; 
+
+    while (fast && fast.next) {
+        fast = fast.next.next;
+        slow = slow.next;
+
+        if (fast == slow) {
+            // 其中一个指针指向不动，另一个指针指向头
+            slow = head;
+            while (fast !== slow) {
+                // 同时只移动一步
+                slow = slow.next;
+                fast = fast.next;
+            }
+            // 此时再次相遇，指向的那个节点就是入环节点
+            return slow;
+        }
+    }
+
+    return null;
+}
+```
+
+
+
+#####  8.3如何判断两个有环链表是否相交, 相交则返回第一个相交节点, 不相交则返回null. 
+
+有时间回过头来写，这道题有点麻烦
+
+#### 9、栈队列问题
+
+##### 9.1两个栈实现一个队列
+
+```
+Stack<Integer> stack1;
     Stack<Integer> stack2;
     public CQueue() {
         stack1 = new Stack<>();
@@ -467,10 +626,16 @@ class MedianFinder {
         }
         return ans;
     }
+```
 
-9.1两个栈实现一个队列
 
-    /** Initialize your data structure here. */
+
+##### 9.2两个队列实现一个栈
+
+
+
+```
+/** Initialize your data structure here. */
     Queue<Integer> queue1;
     Queue<Integer> queue2;
     int size =0;
@@ -478,6 +643,7 @@ class MedianFinder {
         queue1 =  new LinkedList<Integer>() ;
         queue2 =  new LinkedList<Integer>() ;
         
+
     }
     
     /** Push element x onto stack. */
@@ -514,7 +680,20 @@ class MedianFinder {
         return ans;
     }
     
-    数组实现队列
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        return queue1.isEmpty();
+    }
+
+
+```
+
+##### 9.3 用数组实现栈 leetcode622
+
+
+
+```
+数组实现队列
     int []arr = null;
     int curId =0 ,endId =0, curSize =0,size = 0;
 
@@ -522,7 +701,7 @@ class MedianFinder {
         arr = new int[k];
         size =k;
     }
-
+    
     public boolean enQueue(int value) {
         if(curSize < size){
             arr[curId% size] = value;
@@ -532,7 +711,7 @@ class MedianFinder {
         }
         return false;
     }
-
+    
     public boolean deQueue() {
         if(curSize<=0) return  false;
         endId ++;
@@ -540,22 +719,22 @@ class MedianFinder {
         curSize--;
         return true;
     }
-
+    
     public int Front() {
         if(curSize<=0) return -1;
         return arr[(endId) % size];
     }
-
+    
     public int Rear() {
         if(curSize<=0) return -1;
         return arr[(curId-1) % size];
-
+    
     }
-
+    
     public boolean isEmpty() {
         return curSize==0;
     }
-
+    
     public boolean isFull() {
         return curSize==size;
     }
@@ -564,40 +743,52 @@ class MedianFinder {
     public boolean empty() {
         return queue1.isEmpty();
     }
-    
-    
-    10 设计一个getMin()函数的栈
-    
-     /** initialize your data structure here. */
-    Stack<Integer> stack1 = new Stack<>();
-    Stack<Integer> minStack = new Stack<>();
 
+
+
+
+```
+
+
+
+#### 10 设计一个getMin()函数的栈
+
+
+
+    /** initialize your data structure here. */
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<Integer> minStack = new Stack<>();
+    
     public MinStack() {
     }
-
+    
     public void push(int x) {
         if (stack1.isEmpty()) {
             minStack.push(x);
             stack1.push(x);
             return;
         }
-
+    
         stack1.push(x);
         if (x < minStack.peek())
             minStack.push(x);
         else
             minStack.push(minStack.peek());
     }
-
+    
     public void pop() {
         stack1.pop();
         minStack.pop();
     }
-
+    
     public int top() {
         return stack1.peek();
     }
-
+    
     public int min() {
         return minStack.peek();
     }
+
+
+#### 11、旋转矩阵问题  leetcode 面试题 01.07. 旋转矩阵
+
