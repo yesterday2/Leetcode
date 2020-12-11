@@ -887,12 +887,64 @@ public ListNode reverseList(ListNode head) {
 
 ##### （2）进阶，leetcode 92题 对m,n之间的链表进行反转操作
 
+增加哑结点，代码看起来很爽 c++ 版本的，代码写的真牛逼
 
+
+
+```
+public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next= head;
+        ListNode node = dummy;
+        for(int i=1;i<m;i++)
+            node= node.next;
+        ListNode tail=node, first = node.next; //正常链表的最后一个点，反转链表的第一个点
+        ListNode pre= node.next;
+        ListNode cur= node.next.next;
+
+        for(int i=m;i<n;i++){
+            ListNode next= cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        first.next =cur;
+        tail.next = pre;
+        return dummy.next;
+    }
+```
 
 ##### （3）再进阶，leetcode 25题 每K个节点之间的链表进行反转操作
 
-
-
+	public ListNode reverseKGroup(ListNode head, int k) {
+	    if(head == null) return head;
+	    int len = 0;
+	    ListNode dummy = new ListNode(-1);
+	    dummy.next=head;
+	    while(head!=null){
+	        len++;
+	        head=head.next;
+	    }
+	    ListNode tail = dummy;
+	    ListNode first = dummy.next;
+	    ListNode cur = first.next;
+	    ListNode pre = first;
+	
+	    for(int i=0;i< len ;i+=k){
+	        for(int j=0;j<k;j++){
+	            ListNode next = cur.next;
+	            cur.next = pre;
+	            pre = next ;
+	            cur = next;
+	        }
+	        first.next = cur;
+	        pre.next= tail;
+	        first = cur;
+	        tail = pre;
+	
+	    }
+	    return dummy.next;
+	}
 
 
 #### 13、矩阵打印 zigag问题   
@@ -958,3 +1010,26 @@ public ListNode getMidNode(ListNode head){
 
 
 ##### 2、链表复制
+
+
+
+#### 16 程序员代码面试指南 用栈实现另外一个栈的排序
+
+```
+思路： 顺序进辅助栈，如果发现不是顺序，就吐出数据。
+
+public static void sortStackByStack(Stack<Integer> stack){
+        Stack<Integer> stack1 = new Stack<>();
+        while(! stack.isEmpty()){
+            int cur = stack.pop();
+            while(!stack1.isEmpty() && stack1.peek() < cur){
+                stack.push(stack1.pop());
+            }
+            stack1.push(cur);
+        }
+        while (!stack1.isEmpty()){
+            stack.push(stack1.pop());
+        }
+}
+```
+
