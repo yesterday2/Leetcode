@@ -473,7 +473,7 @@ class MedianFinder {
 			}
 		}
 	}
-##### 7.1 桶排序相关的题  leetcode 164 最大间距
+##### 7.1 桶排序相关的题  leetcode 164 最大间距 有bug
 
 思路：有n个数，遍历获得最大最小值，申请n+1个桶，将每个数放进桶中。维护每个桶的最大最小值遍历一次。如果是访问第一个
 
@@ -788,7 +788,161 @@ Stack<Integer> stack1;
     public int min() {
         return minStack.peek();
     }
+#### 12-11号
+
+#### 11、N*N旋转矩阵问题  面试题 01 07
+
+#### 
+
+```
+class Solution {
+    public void myswap(int [][]arr ,int tR ,int tC,int bR ,int bC ){
+        int tmp = 0;
+        for(int i=0;i < bC -tC ;i++ ){
+            tmp = arr[bC-i][tC];
+            //System.out.print ( "tmp = " + tmp  );
+            arr[bC-i][tC] = arr[bR][bC-i];
+            //System.out.print ( "tmp = " + arr[bC-i][tC]  );
+            arr[bR][bC-i] = arr[tR+i][bC];
+            //System.out.print ( "tmp = " + arr[bR][bC-i]   );
+            arr[tR+i][bC] =arr[tR][ tC+i];
+            //System.out.print ( "tmp = " + arr[tR+i][bC]   );
+            arr[tR][ tC+i] = tmp;
+           // System.out.println ( "tmp = " + arr[tR][ tC+i]   );
+        }
+    }
+    public void rotate(int[][] matrix) {
+        int N = matrix.length;
+        for(int i=0;i< N ;i++){
+            if(i<= N-i-1)
+                myswap(matrix , i ,  i, N-i-1 ,N-i-1 );
+        }
+    }
+}
+```
+
+#### 11、螺旋打印矩阵问题    有bug
 
 
-#### 11、旋转矩阵问题  leetcode 面试题 01.07. 旋转矩阵
 
+```
+public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, int bC){
+        for(int i = tC ; i< bC ;i++){
+            ans.add(arr[tR][i]);
+            System.out.print(arr[tR][i]);
+        }
+        System.out.println();
+        for(int i = tR ; i< bR ;i++){
+            ans.add(arr[i][bC]);
+            System.out.print(arr[i][bC]);
+        }System.out.println();
+        for(int i = bC ; i>tC ;i--){
+            ans.add(arr[bR][i]);
+            System.out.print(arr[bR][i]);
+        }System.out.println();
+        for(int i = bR ; i>tR ;i--){
+            ans.add(arr[i][tC]);
+            System.out.print(arr[i][tC]);
+        }System.out.println();
+
+    }
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ans = new ArrayList<>();
+        int Row = matrix.length , Col = matrix[0].length;
+        int min = Math.min(Row, Col);
+        for(int i =0 ; i < min ;i++){
+            myPrint(ans , matrix,i,i, Row -i -1,Col-1-i);
+        }
+        return ans;
+    }
+
+
+```
+
+
+
+#### 12 leetcode206 反转链表
+
+
+
+```
+public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null )
+            return head;
+        ListNode pNext = head.next;
+        ListNode pPre = null , pCur = head;
+        while(pCur!=null){
+            pNext = pCur.next;
+            pCur.next=pPre;
+            pPre= pCur;
+            pCur = pNext;
+        }
+        return pPre;
+    }
+```
+
+
+
+#### 13、矩阵打印 zigag问题   
+
+
+
+#### 14、 leetcode234 回文链表
+
+##### 1、空间问题为O（N） 
+
+思路直接快慢指针到终点，压栈比对
+
+
+
+```
+public ListNode getMidNode(ListNode head){
+         ListNode fast = head,slow = fast.next;
+         while(fast.next!=null && fast.next.next!= null){
+             fast=fast.next.next;
+             slow = slow.next;
+         }
+         return slow;
+     }
+    public boolean isPalindrome(ListNode head) {
+        if(head == null ||head .next == null )
+            return true;
+        ListNode node = getMidNode(head);
+        Stack<Integer > stack1 = new Stack<>();
+        while (node!=null){
+            stack1.push(node.val);
+            node=   node.next;
+        }
+        ListNode tmp = head;
+        while (!stack1.isEmpty()){
+            int num = stack1.pop();
+            if(tmp.val != num){
+                return false;
+            }
+            tmp=tmp.next;
+        }
+        return true;
+    }
+```
+
+
+
+
+
+##### 2、空间O(1)
+
+找到链表终点，反转链表，比对；再恢复链表结构
+
+
+
+
+
+#### 15 leetcode 138 随机链表的复制 
+
+##### 1、哈希表
+
+
+
+
+
+##### 2、链表复制
