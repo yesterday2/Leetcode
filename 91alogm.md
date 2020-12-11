@@ -863,7 +863,7 @@ public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, in
 
 #### 12 leetcode206 反转链表
 
-
+##### （1）普通情形，对所有链表反转操作
 
 ```
 public ListNode reverseList(ListNode head) {
@@ -880,6 +880,16 @@ public ListNode reverseList(ListNode head) {
         return pPre;
     }
 ```
+
+
+
+##### （2）进阶，leetcode 92题 对m,n之间的链表进行反转操作
+
+
+
+##### （3）再进阶，leetcode 25题 每K个节点之间的链表进行反转操作
+
+
 
 
 
