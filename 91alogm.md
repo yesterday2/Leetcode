@@ -632,8 +632,6 @@ Stack<Integer> stack1;
 
 ##### 9.2两个队列实现一个栈
 
-
-
 ```
 /** Initialize your data structure here. */
     Queue<Integer> queue1;
@@ -684,13 +682,9 @@ Stack<Integer> stack1;
     public boolean empty() {
         return queue1.isEmpty();
     }
-
-
 ```
 
 ##### 9.3 用数组实现栈 leetcode622
-
-
 
 ```
 数组实现队列
@@ -743,56 +737,51 @@ Stack<Integer> stack1;
     public boolean empty() {
         return queue1.isEmpty();
     }
-
-
-
-
 ```
-
-
 
 #### 10 设计一个getMin()函数的栈
 
+```
+/** initialize your data structure here. */
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
 
+public MinStack() {
+}
 
-    /** initialize your data structure here. */
-        Stack<Integer> stack1 = new Stack<>();
-        Stack<Integer> minStack = new Stack<>();
-    
-    public MinStack() {
-    }
-    
-    public void push(int x) {
-        if (stack1.isEmpty()) {
-            minStack.push(x);
-            stack1.push(x);
-            return;
-        }
-    
+public void push(int x) {
+    if (stack1.isEmpty()) {
+        minStack.push(x);
         stack1.push(x);
-        if (x < minStack.peek())
-            minStack.push(x);
-        else
-            minStack.push(minStack.peek());
+        return;
     }
-    
-    public void pop() {
-        stack1.pop();
-        minStack.pop();
-    }
-    
-    public int top() {
-        return stack1.peek();
-    }
-    
-    public int min() {
-        return minStack.peek();
-    }
+
+    stack1.push(x);
+    if (x < minStack.peek())
+        minStack.push(x);
+    else
+        minStack.push(minStack.peek());
+}
+
+public void pop() {
+    stack1.pop();
+    minStack.pop();
+}
+
+public int top() {
+    return stack1.peek();
+}
+
+public int min() {
+    return minStack.peek();
+}
+```
+
 #### 12-11号
 
-#### 11、N*N旋转矩阵问题  面试题 01 07
+#### 11、矩阵打印问题
 
-#### 
+##### (1)N*N旋转矩阵问题 面试题 01 07
 
 ```
 class Solution {
@@ -821,9 +810,7 @@ class Solution {
 }
 ```
 
-#### 11、螺旋打印矩阵问题    有bug
-
-
+##### (2）螺旋打印矩阵问题 有bug
 
 ```
 public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, int bC){
@@ -855,11 +842,7 @@ public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, in
         }
         return ans;
     }
-
-
 ```
-
-
 
 #### 12 leetcode206 反转链表
 
@@ -881,29 +864,75 @@ public ListNode reverseList(ListNode head) {
     }
 ```
 
-
-
 ##### （2）进阶，leetcode 92题 对m,n之间的链表进行反转操作
 
+增加哑结点，代码看起来很爽 c++ 版本的，代码写的真牛逼
 
+```
+public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next= head;
+        ListNode node = dummy;
+        for(int i=1;i<m;i++)
+            node= node.next;
+        ListNode tail=node, first = node.next; //正常链表的最后一个点，反转链表的第一个点
+        ListNode pre= node.next;
+        ListNode cur= node.next.next;
+
+        for(int i=m;i<n;i++){
+            ListNode next= cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        first.next =cur;
+        tail.next = pre;
+        return dummy.next;
+    }
+```
 
 ##### （3）再进阶，leetcode 25题 每K个节点之间的链表进行反转操作
 
+爽，ac
 
+```
+public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null) return head;
+        int len = 0;
+        ListNode dummy = new ListNode(-1);
+        dummy.next=head;
+        while(head!=null){
+            len++;
+            head=head.next;
+        }
+        ListNode tail = dummy;
+        ListNode first = dummy.next;
+        ListNode cur = dummy.next;
+        ListNode pre = null;
 
+        for(int i=0;i< len/k ;i++){
+            for(int j=0;j<k;j++){
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur ;
+                cur = next;
+            }
+            first.next = cur;
+            tail .next= pre;
+            tail = first;
+            first = cur;
+            pre = first;
+        }
+        return dummy.next;
+```
 
-
-#### 13、矩阵打印 zigag问题   
-
-
+#### 13、矩阵打印 zigag问题
 
 #### 14、 leetcode234 回文链表
 
-##### 1、空间问题为O（N） 
+##### 1、空间问题为O（N）
 
 思路直接快慢指针到终点，压栈比对
-
-
 
 ```
 public ListNode getMidNode(ListNode head){
@@ -935,24 +964,73 @@ public ListNode getMidNode(ListNode head){
     }
 ```
 
-
-
-
-
 ##### 2、空间O(1)
 
 找到链表终点，反转链表，比对；再恢复链表结构
 
+```
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null) return true;
+        ListNode fast = head,slow = head;
+        while(fast.next!= null  &&  fast.next.next !=null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode pst = slow.next;
+        slow.next=null;
+
+        ListNode pre = slow , cur = pst;
+        while(cur!=null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        pst = pre;
+        ListNode phead = head;
+        while(phead!=null){
+            if(phead.val != pst.val)
+                return false;
+            pst= pst.next;
+            phead=phead.next;
+        }
+        return  true;
+    }
+
+}
+```
 
 
 
-
-#### 15 leetcode 138 随机链表的复制 
+#### 15 leetcode 138 随机链表的复制
 
 ##### 1、哈希表
 
 
 
-
-
 ##### 2、链表复制
+
+#### 16 程序员代码面试指南 用栈实现另外一个栈的排序
+
+```
+思路： 顺序进辅助栈，如果发现不是顺序，就吐出数据。
+
+public static void sortStackByStack(Stack<Integer> stack){
+        Stack<Integer> stack1 = new Stack<>();
+        while(! stack.isEmpty()){
+            int cur = stack.pop();
+            while(!stack1.isEmpty() && stack1.peek() < cur){
+                stack.push(stack1.pop());
+            }
+            stack1.push(cur);
+        }
+        while (!stack1.isEmpty()){
+            stack.push(stack1.pop());
+        }
+}
+```
+
+
+
+  
