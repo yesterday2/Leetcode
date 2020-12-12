@@ -475,7 +475,7 @@ class MedianFinder {
 			}
 		}
 	}
-##### 7.1 桶排序相关的题  leetcode 164 最大间距 有bug
+##### 7.1 桶排序相关的题 leetcode 164 最大间距 有bug
 
 思路：有n个数，遍历获得最大最小值，申请n+1个桶，将每个数放进桶中。维护每个桶的最大最小值遍历一次。如果是访问第一个
 
@@ -524,8 +524,6 @@ public static int maximumGap(int[] nums) {
     }
 ```
 
- 
-
 #### 8 链表相交的一系列问题
 
 ##### 8.1 leetcode 剑指Offer 52 两个链表相交的第一个公共节点
@@ -563,14 +561,9 @@ public class Solution {
 }
 ```
 
-
-
-##### 8.2 leetcode 141  如何判断一个链表是否有环 
-
-
+##### 8.2 leetcode 141 如何判断一个链表是否有环
 
 ```
-
 function detectCycle(head) {
     let fast = head;
     let slow = head; 
@@ -596,9 +589,7 @@ function detectCycle(head) {
 }
 ```
 
-
-
-#####  8.3如何判断两个有环链表是否相交, 相交则返回第一个相交节点, 不相交则返回null. 
+##### 8.3如何判断两个有环链表是否相交, 相交则返回第一个相交节点, 不相交则返回null.
 
 有时间回过头来写，这道题有点麻烦
 
@@ -630,11 +621,7 @@ Stack<Integer> stack1;
     }
 ```
 
-
-
 ##### 9.2两个队列实现一个栈
-
-
 
 ```
 /** Initialize your data structure here. */
@@ -686,13 +673,9 @@ Stack<Integer> stack1;
     public boolean empty() {
         return queue1.isEmpty();
     }
-
-
 ```
 
 ##### 9.3 用数组实现栈 leetcode622
-
-
 
 ```
 数组实现队列
@@ -745,56 +728,51 @@ Stack<Integer> stack1;
     public boolean empty() {
         return queue1.isEmpty();
     }
-
-
-
-
 ```
-
-
 
 #### 10 设计一个getMin()函数的栈
 
+```
+/** initialize your data structure here. */
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> minStack = new Stack<>();
 
+public MinStack() {
+}
 
-    /** initialize your data structure here. */
-        Stack<Integer> stack1 = new Stack<>();
-        Stack<Integer> minStack = new Stack<>();
-    
-    public MinStack() {
-    }
-    
-    public void push(int x) {
-        if (stack1.isEmpty()) {
-            minStack.push(x);
-            stack1.push(x);
-            return;
-        }
-    
+public void push(int x) {
+    if (stack1.isEmpty()) {
+        minStack.push(x);
         stack1.push(x);
-        if (x < minStack.peek())
-            minStack.push(x);
-        else
-            minStack.push(minStack.peek());
+        return;
     }
-    
-    public void pop() {
-        stack1.pop();
-        minStack.pop();
-    }
-    
-    public int top() {
-        return stack1.peek();
-    }
-    
-    public int min() {
-        return minStack.peek();
-    }
+
+    stack1.push(x);
+    if (x < minStack.peek())
+        minStack.push(x);
+    else
+        minStack.push(minStack.peek());
+}
+
+public void pop() {
+    stack1.pop();
+    minStack.pop();
+}
+
+public int top() {
+    return stack1.peek();
+}
+
+public int min() {
+    return minStack.peek();
+}
+```
+
 #### 12-11号
 
-#### 11、N*N旋转矩阵问题  面试题 01 07
+#### 11、矩阵打印问题
 
-#### 
+##### (1)N*N旋转矩阵问题 面试题 01 07
 
 ```
 class Solution {
@@ -823,9 +801,7 @@ class Solution {
 }
 ```
 
-#### 11、螺旋打印矩阵问题    有bug
-
-
+##### (2）螺旋打印矩阵问题 有bug
 
 ```
 public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, int bC){
@@ -857,11 +833,7 @@ public void myPrint(List<Integer> ans ,int [][] arr, int tR, int tC , int bR, in
         }
         return ans;
     }
-
-
 ```
-
-
 
 #### 12 leetcode206 反转链表
 
@@ -883,13 +855,9 @@ public ListNode reverseList(ListNode head) {
     }
 ```
 
-
-
 ##### （2）进阶，leetcode 92题 对m,n之间的链表进行反转操作
 
 增加哑结点，代码看起来很爽 c++ 版本的，代码写的真牛逼
-
-
 
 ```
 public ListNode reverseBetween(ListNode head, int m, int n) {
@@ -916,48 +884,46 @@ public ListNode reverseBetween(ListNode head, int m, int n) {
 
 ##### （3）再进阶，leetcode 25题 每K个节点之间的链表进行反转操作
 
-	public ListNode reverseKGroup(ListNode head, int k) {
-	    if(head == null) return head;
-	    int len = 0;
-	    ListNode dummy = new ListNode(-1);
-	    dummy.next=head;
-	    while(head!=null){
-	        len++;
-	        head=head.next;
-	    }
-	    ListNode tail = dummy;
-	    ListNode first = dummy.next;
-	    ListNode cur = first.next;
-	    ListNode pre = first;
-	
-	    for(int i=0;i< len ;i+=k){
-	        for(int j=0;j<k;j++){
-	            ListNode next = cur.next;
-	            cur.next = pre;
-	            pre = next ;
-	            cur = next;
-	        }
-	        first.next = cur;
-	        pre.next= tail;
-	        first = cur;
-	        tail = pre;
-	
-	    }
-	    return dummy.next;
-	}
+爽，ac
 
+```
+public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null) return head;
+        int len = 0;
+        ListNode dummy = new ListNode(-1);
+        dummy.next=head;
+        while(head!=null){
+            len++;
+            head=head.next;
+        }
+        ListNode tail = dummy;
+        ListNode first = dummy.next;
+        ListNode cur = dummy.next;
+        ListNode pre = null;
 
-#### 13、矩阵打印 zigag问题   
+        for(int i=0;i< len/k ;i++){
+            for(int j=0;j<k;j++){
+                ListNode next = cur.next;
+                cur.next = pre;
+                pre = cur ;
+                cur = next;
+            }
+            first.next = cur;
+            tail .next= pre;
+            tail = first;
+            first = cur;
+            pre = first;
+        }
+        return dummy.next;
+```
 
-
+#### 13、矩阵打印 zigag问题
 
 #### 14、 leetcode234 回文链表
 
-##### 1、空间问题为O（N） 
+##### 1、空间问题为O（N）
 
 思路直接快慢指针到终点，压栈比对
-
-
 
 ```
 public ListNode getMidNode(ListNode head){
@@ -989,29 +955,48 @@ public ListNode getMidNode(ListNode head){
     }
 ```
 
-
-
-
-
 ##### 2、空间O(1)
 
 找到链表终点，反转链表，比对；再恢复链表结构
 
+```
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null) return true;
+        ListNode fast = head,slow = head;
+        while(fast.next!= null  &&  fast.next.next !=null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode pst = slow.next;
+        slow.next=null;
 
+        ListNode pre = slow , cur = pst;
+        while(cur!=null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        pst = pre;
+        ListNode phead = head;
+        while(phead!=null){
+            if(phead.val != pst.val)
+                return false;
+            pst= pst.next;
+            phead=phead.next;
+        }
+        return  true;
+    }
 
+}
+```
 
-
-#### 15 leetcode 138 随机链表的复制 
+#### 15 leetcode 138 随机链表的复制
 
 ##### 1、哈希表
 
-
-
-
-
 ##### 2、链表复制
-
-
 
 #### 16 程序员代码面试指南 用栈实现另外一个栈的排序
 
@@ -1033,3 +1018,235 @@ public static void sortStackByStack(Stack<Integer> stack){
 }
 ```
 
+#### 12-12号
+
+#### 17剑指offer 第3题
+
+https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/
+
+##### （1）暴力哈希
+
+```
+public int findRepeatNumber(int[] nums) {
+    HashMap<Integer,Integer> myhash = new HashMap<>();
+    for(int i=0;i<nums.length;i++){
+        if(!myhash.containsKey(nums[i])){
+            myhash.put(nums[i],1);
+        }else{
+            return nums[i];
+        }
+    }
+    return -1;
+}
+```
+
+##### （2）遍历数组替换
+
+```
+class Solution {
+    public void swap(int[] nums, int i,int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp   ;
+    }
+    public int findRepeatNumber(int[] nums) {
+        for(int i=0;i<nums.length;i++){
+            while(nums[i] != i){
+                if(nums[i] == nums[nums[i]])
+                    return nums[i];
+                swap(nums,nums[i], i );
+            }
+        }
+        return -1;
+    }
+}
+```
+
+##### （3）二分分割统计 每段数字出现的次数
+
+#### 18 重建二叉树
+
+##### （1）剑指offer 第7题 前序 中序恢复二叉树结构
+
+https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/
+
+```
+   Queue<Integer> queue = new ArrayDeque<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!queue.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
+        if(!queue.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
+        return node;
+    }
+   public TreeNode buildTree(int[] preorder, int[] inorder) {
+   if(preorder.length<= 0 || inorder.length<= 0) return null;
+    for(int i=0;i< preorder.length;i++){
+        for(int j=0;j<inorder.length;j++){
+            if(preorder[i] == inorder[j])
+                queue.add(j);
+        }
+    }
+    TreeNode ans =  constuctTree(  inorder, 0,queue.poll(), inorder.length-1);
+    return ans;
+}
+```
+
+##### （2）leetcode 106 中序后序恢复二叉树结构
+
+https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+
+```
+Stack<Integer> stack = new Stack<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!stack.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
+        if(!stack.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,stack.pop(), mid-1);    return node;
+}
+public TreeNode buildTree(int[] inorder, int[] postorder) {
+    if(postorder.length<= 0 || inorder.length<= 0) return null;
+    for(int i=0;i< postorder.length;i++){
+        for(int j=0;j<inorder.length;j++){
+            if(postorder[i] == inorder[j])
+                stack.push(j);
+        }
+    }
+    TreeNode ans =  constuctTree( inorder, 0,stack.pop(), inorder.length-1);
+    return ans;
+}
+```
+
+#### 19 二叉树的下一节点
+
+```
+public class Solution {
+    public TreeLinkNode GetNext(TreeLinkNode pNode)
+    {
+        if(pNode == null) return  null;
+        if(pNode.right != null)
+        {
+            TreeLinkNode myleft = pNode.right;
+            while (myleft.left!=null) myleft=myleft.left;
+            return myleft;
+        }else{
+            while(pNode.next !=null){
+                if(pNode.next.left == pNode)
+                    return pNode.next;
+                pNode = pNode.next;
+            }
+            return null;
+        }
+    }
+}
+```
+
+#### 20斐波那契数列
+
+https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
+
+```
+有bug
+public int fib(int n) {
+ 	int []res = {0,1};
+    if(n<2) return res[n];
+    int pre = 0 ,cur =1;
+    int ans = 0;
+    for(int i=2;i<=n;i++){
+    ans = (pre + cur)%1000000007;
+    pre = cur%1000000007;
+    cur = ans%1000000007 ;
+    }
+    return ans%1000000007;
+}
+
+```
+
+#### 21 变态青蛙跳台阶问题
+
+归纳法，f(0) =1;f(1) =1
+
+f(n-1) = f(0)+f(1)+f(2)+f(n-2)
+
+f(n) = f(0)+f(1)+f(2)+f(n-1)
+
+f(n) = 2*f(n-1)
+
+```
+public int JumpFloorII(int target) {
+        if(target == 0 ||target ==1 ){
+            return 1;
+        }
+        else {
+            return 2*JumpFloorII(target-1);
+        }
+}
+```
+
+
+
+#### 22整数的n次方
+
+链接 https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/
+
+
+
+```
+有bug 过不了
+public double myPow(double x, int n) {
+        if(n == 0) return 1.0;
+        if(n==1) return x;
+        if(n< 0 ){
+            return 1/ (x*myPow(x , -n-1));
+        }
+        double res = myPow(x,n/2);
+        res *=res;
+        if( n%2 ==1)
+            res *=x;
+        return res;
+}
+```
+
+
+
+#### 23旋转数组的最小值
+
+```
+class Solution {
+    public int minArray(int[] numbers) {
+        int low = 0, high = numbers.length-1;
+        int mid;
+        while(low<= high){
+            mid = low + (high-low)/2;
+            if(numbers[mid] > numbers[high]){
+                low = mid+1;
+            }else if(numbers[mid] < numbers[high]){
+                high =mid;
+            }else if(numbers[mid] == numbers[high]){
+                high--;
+            }
+        }
+        return numbers[low];
+    }
+}
+```
+
+
+
+#### 21 面试指南 单调栈
+
+leetcode 84 最大子矩阵的大小 抽时间code一下
+
+https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
+
+从一个数组里面找到分别离自己最近的最小的id。用一个栈维护升序，破坏了升序就清算。
+
+#### 22面试指南 最大值减去最小值小于等于num的子数组的数量
+
+有点难：没太懂
