@@ -1031,6 +1031,86 @@ public static void sortStackByStack(Stack<Integer> stack){
 }
 ```
 
-
+    public int findRepeatNumber(int[] nums) {
+        HashMap<Integer,Integer> myhash = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            if(!myhash.containsKey(nums[i])){
+                myhash.put(nums[i],1);
+            }else{
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+    
+    
+    class Solution {
+    public void swap(int[] nums, int i,int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp   ;
+    }
+    public int findRepeatNumber(int[] nums) {
+        for(int i=0;i<nums.length;i++){
+            while(nums[i] != i){
+                if(nums[i] == nums[nums[i]])
+                    return nums[i];
+                swap(nums,nums[i], i );
+            }
+        }
+        return -1;
+    }
+}
 
   
+  
+  
+  Queue<Integer> queue = new ArrayDeque<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!queue.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
+        if(!queue.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
+        return node;
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+
+        if(preorder.length<= 0 || inorder.length<= 0) return null;
+        for(int i=0;i< preorder.length;i++){
+            for(int j=0;j<inorder.length;j++){
+                if(preorder[i] == inorder[j])
+                    queue.add(j);
+            }
+        }
+        TreeNode ans =  constuctTree(  inorder, 0,queue.poll(), inorder.length-1);
+        return ans;
+    }
+    
+    
+    
+    Stack<Integer> stack = new Stack<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!stack.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
+        if(!stack.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,stack.pop(), mid-1);
+
+        return node;
+    }
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if(postorder.length<= 0 || inorder.length<= 0) return null;
+        for(int i=0;i< postorder.length;i++){
+            for(int j=0;j<inorder.length;j++){
+                if(postorder[i] == inorder[j])
+                    stack.push(j);
+            }
+        }
+        TreeNode ans =  constuctTree( inorder, 0,stack.pop(), inorder.length-1);
+        return ans;
+    }
