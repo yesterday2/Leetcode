@@ -1031,6 +1031,16 @@ public static void sortStackByStack(Stack<Integer> stack){
 }
 ```
 
+
+
+####   12-12号
+
+####  17剑指offer 第3题
+
+ https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/ 
+
+##### （1）暴力哈希
+
     public int findRepeatNumber(int[] nums) {
         HashMap<Integer,Integer> myhash = new HashMap<>();
         for(int i=0;i<nums.length;i++){
@@ -1042,9 +1052,12 @@ public static void sortStackByStack(Stack<Integer> stack){
         }
         return -1;
     }
-    
-    
-    class Solution {
+##### （2）遍历数组替换
+
+
+
+```
+class Solution {
     public void swap(int[] nums, int i,int j){
         int tmp = nums[i];
         nums[i] = nums[j];
@@ -1061,24 +1074,31 @@ public static void sortStackByStack(Stack<Integer> stack){
         return -1;
     }
 }
+```
 
-  
-  
-  
-  Queue<Integer> queue = new ArrayDeque<>();
-    public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
-        if(left == right)
-            return  new TreeNode(inorder[mid]);
-        TreeNode node = new TreeNode(inorder[mid]);
-        if(!queue.isEmpty() && left <= mid-1)
-            node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
-        if(!queue.isEmpty()  && mid+1 <= right )
-            node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
-        return node;
-    }
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
+##### （3）二分分割统计 每段数字出现的次数
 
-        if(preorder.length<= 0 || inorder.length<= 0) return null;
+####  18  重建二叉树
+
+
+
+##### （1）剑指offer 第7题 前序 中序恢复二叉树结构
+
+https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/
+
+       Queue<Integer> queue = new ArrayDeque<>();
+        public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
+            if(left == right)
+                return  new TreeNode(inorder[mid]);
+            TreeNode node = new TreeNode(inorder[mid]);
+            if(!queue.isEmpty() && left <= mid-1)
+                node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
+            if(!queue.isEmpty()  && mid+1 <= right )
+                node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
+            return node;
+        }
+       public TreeNode buildTree(int[] preorder, int[] inorder) {
+       if(preorder.length<= 0 || inorder.length<= 0) return null;
         for(int i=0;i< preorder.length;i++){
             for(int j=0;j<inorder.length;j++){
                 if(preorder[i] == inorder[j])
@@ -1088,20 +1108,21 @@ public static void sortStackByStack(Stack<Integer> stack){
         TreeNode ans =  constuctTree(  inorder, 0,queue.poll(), inorder.length-1);
         return ans;
     }
-    
-    
-    
-    Stack<Integer> stack = new Stack<>();
-    public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
-        if(left == right)
-            return  new TreeNode(inorder[mid]);
-        TreeNode node = new TreeNode(inorder[mid]);
-        if(!stack.isEmpty()  && mid+1 <= right )
-            node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
-        if(!stack.isEmpty() && left <= mid-1)
-            node.left = constuctTree(  inorder, left,stack.pop(), mid-1);
+##### （2）leetcode 106 中序后序恢复二叉树结构
 
-        return node;
+https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+
+
+
+    Stack<Integer> stack = new Stack<>();
+        public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
+            if(left == right)
+                return  new TreeNode(inorder[mid]);
+            TreeNode node = new TreeNode(inorder[mid]);
+            if(!stack.isEmpty()  && mid+1 <= right )
+                node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
+            if(!stack.isEmpty() && left <= mid-1)
+                node.left = constuctTree(  inorder, left,stack.pop(), mid-1);    return node;
     }
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         if(postorder.length<= 0 || inorder.length<= 0) return null;
@@ -1114,3 +1135,31 @@ public static void sortStackByStack(Stack<Integer> stack){
         TreeNode ans =  constuctTree( inorder, 0,stack.pop(), inorder.length-1);
         return ans;
     }
+#### 19 二叉树的下一节点
+
+```
+public class Solution {
+    public TreeLinkNode GetNext(TreeLinkNode pNode)
+    {
+        if(pNode == null) return  null;
+        if(pNode.right != null)
+        {
+            TreeLinkNode myleft = pNode.right;
+            while (myleft.left!=null) myleft=myleft.left;
+            return myleft;
+        }else{
+            while(pNode.next !=null){
+                if(pNode.next.left == pNode)
+                    return pNode.next;
+                pNode = pNode.next;
+            }
+            return null;
+        }
+    }
+}
+```
+
+#### 20斐波那契数列
+
+https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
+
