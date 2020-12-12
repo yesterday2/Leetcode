@@ -1163,3 +1163,30 @@ public class Solution {
 
 https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
 
+
+
+
+
+public int fib(int n) {
+
+​    if(n==0) return 0;
+
+​    else if(n==1) return 1;
+
+​    long pre = 0 ,cur =1;
+
+​    long ans = 0;
+
+​    for(int i=1;i<n;i++){
+
+​      ans = pre + cur;
+
+​      pre = cur;
+
+​      cur = ans ;
+
+​    }
+
+​    return (int)ans%1000000007;
+
+  }
