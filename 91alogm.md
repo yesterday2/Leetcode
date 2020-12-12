@@ -1,3 +1,5 @@
+asaa
+
 #### 1、leetcode 144题：给你二叉树的根节点 root ，返回它节点值的 前序 遍历
 
 输入：root = [1,null,2,3]
@@ -473,7 +475,7 @@ class MedianFinder {
 			}
 		}
 	}
-##### 7.1 桶排序相关的题  leetcode 164 最大间距 有bug
+##### 7.1 桶排序相关的题 leetcode 164 最大间距 有bug
 
 思路：有n个数，遍历获得最大最小值，申请n+1个桶，将每个数放进桶中。维护每个桶的最大最小值遍历一次。如果是访问第一个
 
@@ -522,8 +524,6 @@ public static int maximumGap(int[] nums) {
     }
 ```
 
- 
-
 #### 8 链表相交的一系列问题
 
 ##### 8.1 leetcode 剑指Offer 52 两个链表相交的第一个公共节点
@@ -561,14 +561,9 @@ public class Solution {
 }
 ```
 
-
-
-##### 8.2 leetcode 141  如何判断一个链表是否有环 
-
-
+##### 8.2 leetcode 141 如何判断一个链表是否有环
 
 ```
-
 function detectCycle(head) {
     let fast = head;
     let slow = head; 
@@ -594,9 +589,7 @@ function detectCycle(head) {
 }
 ```
 
-
-
-#####  8.3如何判断两个有环链表是否相交, 相交则返回第一个相交节点, 不相交则返回null. 
+##### 8.3如何判断两个有环链表是否相交, 相交则返回第一个相交节点, 不相交则返回null.
 
 有时间回过头来写，这道题有点麻烦
 
@@ -627,8 +620,6 @@ Stack<Integer> stack1;
         return ans;
     }
 ```
-
-
 
 ##### 9.2两个队列实现一个栈
 
@@ -1001,13 +992,9 @@ class Solution {
 }
 ```
 
-
-
 #### 15 leetcode 138 随机链表的复制
 
 ##### 1、哈希表
-
-
 
 ##### 2、链表复制
 
@@ -1031,30 +1018,29 @@ public static void sortStackByStack(Stack<Integer> stack){
 }
 ```
 
+#### 12-12号
 
+#### 17剑指offer 第3题
 
-####   12-12号
-
-####  17剑指offer 第3题
-
- https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/ 
+https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/
 
 ##### （1）暴力哈希
 
-    public int findRepeatNumber(int[] nums) {
-        HashMap<Integer,Integer> myhash = new HashMap<>();
-        for(int i=0;i<nums.length;i++){
-            if(!myhash.containsKey(nums[i])){
-                myhash.put(nums[i],1);
-            }else{
-                return nums[i];
-            }
+```
+public int findRepeatNumber(int[] nums) {
+    HashMap<Integer,Integer> myhash = new HashMap<>();
+    for(int i=0;i<nums.length;i++){
+        if(!myhash.containsKey(nums[i])){
+            myhash.put(nums[i],1);
+        }else{
+            return nums[i];
         }
-        return -1;
     }
+    return -1;
+}
+```
+
 ##### （2）遍历数组替换
-
-
 
 ```
 class Solution {
@@ -1078,63 +1064,65 @@ class Solution {
 
 ##### （3）二分分割统计 每段数字出现的次数
 
-####  18  重建二叉树
-
-
+#### 18 重建二叉树
 
 ##### （1）剑指offer 第7题 前序 中序恢复二叉树结构
 
 https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/
 
-       Queue<Integer> queue = new ArrayDeque<>();
-        public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
-            if(left == right)
-                return  new TreeNode(inorder[mid]);
-            TreeNode node = new TreeNode(inorder[mid]);
-            if(!queue.isEmpty() && left <= mid-1)
-                node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
-            if(!queue.isEmpty()  && mid+1 <= right )
-                node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
-            return node;
-        }
-       public TreeNode buildTree(int[] preorder, int[] inorder) {
-       if(preorder.length<= 0 || inorder.length<= 0) return null;
-        for(int i=0;i< preorder.length;i++){
-            for(int j=0;j<inorder.length;j++){
-                if(preorder[i] == inorder[j])
-                    queue.add(j);
-            }
-        }
-        TreeNode ans =  constuctTree(  inorder, 0,queue.poll(), inorder.length-1);
-        return ans;
+```
+   Queue<Integer> queue = new ArrayDeque<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid ,int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!queue.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,queue.poll(), mid-1);
+        if(!queue.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,queue.poll(), right);
+        return node;
     }
+   public TreeNode buildTree(int[] preorder, int[] inorder) {
+   if(preorder.length<= 0 || inorder.length<= 0) return null;
+    for(int i=0;i< preorder.length;i++){
+        for(int j=0;j<inorder.length;j++){
+            if(preorder[i] == inorder[j])
+                queue.add(j);
+        }
+    }
+    TreeNode ans =  constuctTree(  inorder, 0,queue.poll(), inorder.length-1);
+    return ans;
+}
+```
+
 ##### （2）leetcode 106 中序后序恢复二叉树结构
 
 https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
 
-
-
-    Stack<Integer> stack = new Stack<>();
-        public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
-            if(left == right)
-                return  new TreeNode(inorder[mid]);
-            TreeNode node = new TreeNode(inorder[mid]);
-            if(!stack.isEmpty()  && mid+1 <= right )
-                node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
-            if(!stack.isEmpty() && left <= mid-1)
-                node.left = constuctTree(  inorder, left,stack.pop(), mid-1);    return node;
-    }
-    public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if(postorder.length<= 0 || inorder.length<= 0) return null;
-        for(int i=0;i< postorder.length;i++){
-            for(int j=0;j<inorder.length;j++){
-                if(postorder[i] == inorder[j])
-                    stack.push(j);
-            }
+```
+Stack<Integer> stack = new Stack<>();
+    public TreeNode constuctTree(int[] inorder , int left, int mid , int right){
+        if(left == right)
+            return  new TreeNode(inorder[mid]);
+        TreeNode node = new TreeNode(inorder[mid]);
+        if(!stack.isEmpty()  && mid+1 <= right )
+            node.right = constuctTree(  inorder, mid+1,stack.pop(), right);
+        if(!stack.isEmpty() && left <= mid-1)
+            node.left = constuctTree(  inorder, left,stack.pop(), mid-1);    return node;
+}
+public TreeNode buildTree(int[] inorder, int[] postorder) {
+    if(postorder.length<= 0 || inorder.length<= 0) return null;
+    for(int i=0;i< postorder.length;i++){
+        for(int j=0;j<inorder.length;j++){
+            if(postorder[i] == inorder[j])
+                stack.push(j);
         }
-        TreeNode ans =  constuctTree( inorder, 0,stack.pop(), inorder.length-1);
-        return ans;
     }
+    TreeNode ans =  constuctTree( inorder, 0,stack.pop(), inorder.length-1);
+    return ans;
+}
+```
+
 #### 19 二叉树的下一节点
 
 ```
@@ -1163,30 +1151,102 @@ public class Solution {
 
 https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
 
-
-
-
-
+```
+有bug
 public int fib(int n) {
+ 	int []res = {0,1};
+    if(n<2) return res[n];
+    int pre = 0 ,cur =1;
+    int ans = 0;
+    for(int i=2;i<=n;i++){
+    ans = (pre + cur)%1000000007;
+    pre = cur%1000000007;
+    cur = ans%1000000007 ;
+    }
+    return ans%1000000007;
+}
 
-​    if(n==0) return 0;
+```
 
-​    else if(n==1) return 1;
+#### 21 变态青蛙跳台阶问题
 
-​    long pre = 0 ,cur =1;
+归纳法，f(0) =1;f(1) =1
 
-​    long ans = 0;
+f(n-1) = f(0)+f(1)+f(2)+f(n-2)
 
-​    for(int i=1;i<n;i++){
+f(n) = f(0)+f(1)+f(2)+f(n-1)
 
-​      ans = pre + cur;
+f(n) = 2*f(n-1)
 
-​      pre = cur;
+```
+public int JumpFloorII(int target) {
+        if(target == 0 ||target ==1 ){
+            return 1;
+        }
+        else {
+            return 2*JumpFloorII(target-1);
+        }
+}
+```
 
-​      cur = ans ;
 
-​    }
 
-​    return (int)ans%1000000007;
+#### 22整数的n次方
 
-  }
+链接 https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/
+
+
+
+```
+有bug 过不了
+public double myPow(double x, int n) {
+        if(n == 0) return 1.0;
+        if(n==1) return x;
+        if(n< 0 ){
+            return 1/ (x*myPow(x , -n-1));
+        }
+        double res = myPow(x,n/2);
+        res *=res;
+        if( n%2 ==1)
+            res *=x;
+        return res;
+}
+```
+
+
+
+#### 23旋转数组的最小值
+
+```
+class Solution {
+    public int minArray(int[] numbers) {
+        int low = 0, high = numbers.length-1;
+        int mid;
+        while(low<= high){
+            mid = low + (high-low)/2;
+            if(numbers[mid] > numbers[high]){
+                low = mid+1;
+            }else if(numbers[mid] < numbers[high]){
+                high =mid;
+            }else if(numbers[mid] == numbers[high]){
+                high--;
+            }
+        }
+        return numbers[low];
+    }
+}
+```
+
+
+
+#### 21 面试指南 单调栈
+
+leetcode 84 最大子矩阵的大小 抽时间code一下
+
+https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
+
+从一个数组里面找到分别离自己最近的最小的id。用一个栈维护升序，破坏了升序就清算。
+
+#### 22面试指南 最大值减去最小值小于等于num的子数组的数量
+
+有点难：没太懂
